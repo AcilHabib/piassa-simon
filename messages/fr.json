@@ -1,0 +1,175 @@
+{
+  "HomePage": {
+    "title": "bonjour le monde",
+    "searchPlaceholder": "Rechercher"
+  },
+  "LoginPage": {
+    "title": "Ouverture de session",
+    "mutedTitle": "pour continuer à Piassa",
+    "form": {
+      "username": {
+        "label": "Nom d'utilisateur",
+        "placeholder": "Simon",
+        "error": "Le nom d'utilisateur doit comporter au moins 3 caractères"
+      },
+      "password": {
+        "label": "Mot de passe",
+        "error": "Le mot de passe doit comporter au moins 4 caractères"
+      },
+      "loginButton": "Se connecter"
+    }
+  },
+  "sideBar": {
+    "stock": "Stock",
+    "pos": "Point de vente",
+    "lowStock": "Stock bas",
+    "lowRotation": "Rotation basse",
+    "orders": "Commandes",
+    "sales": "Ventes",
+    "wallet": "Fonds de caisse",
+    "settings": "Paramètres",
+    "logout": "Se déconnecter"
+  },
+  "stockPage": {
+    "importStock": "Importer le stock",
+    "tableHeadTitles": {
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "quantity": "Qt"
+    },
+    "moreOptions": {
+      "edit": "Modifier",
+      "seeDetails": "Voir les détails",
+      "delete": "Supprimer"
+    },
+    "articles": {
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "quantity": "Qt",
+      "refAM": "Ref After market",
+      "refTD": "Ref TecDoc",
+      "position": "Position",
+      "type": "Type"
+    },
+
+    "addProduct": {
+      "titlePart": "Ajouter une Piece",
+      "titleBody": "Ajouter  un Carousserie",
+      "titleGlaze": "Ajouter un Vitrage",
+      "titleTire": "Ajouter un Pneu",
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "quantity": "Qt",
+      "refAM": "Ref After market",
+      "refTD": "Ref TecDoc",
+      "position": "Position",
+      "type": "Type",
+      "add": "Ajouter",
+
+      "years": "Années",
+
+      "color": "Couleur"
+    }
+  },
+  "POSPage": {
+    "tableHeaders": {
+      "ProductName": "Nom du produit",
+      "Ref": "Ref",
+      "Category": "Catégorie",
+      "SellPrice": "Prix de vente",
+      "Qt": "Qt"
+    },
+    "addToCart": "Ajouter au panier",
+
+    "order": {
+      "title": "Ordre",
+      "total": "Total",
+      "discount": "Remise",
+      "finalTotal": "Total final",
+      "payment": "Payment",
+      "cash": "Cash",
+      "credit": "Credit",
+      "validate": "Valider",
+      "articles": "Articles",
+      "confirmOrder": "Confirmer l'ordre",
+
+      "confirmOrderDescription": "Cette action est irréversible. Êtes-vous sûr de vouloir confirmer cette commande ?",
+      "ref": "Ref",
+      "date": "Date"
+    }
+  },
+  "months": {
+    "1": "Janvier",
+    "2": "Fevrier",
+    "3": "Mars",
+    "4": "Avril",
+    "5": "Mai",
+    "6": "Juin",
+    "7": "Juillet",
+    "8": "Août",
+    "9": "Septembre",
+    "10": "Octobre",
+    "11": "Novembre",
+    "12": "Decembre"
+  },
+  "settingsPage": {
+    "generalSettings": {
+      "title": "Changer vos informations personnelles",
+      "logo": {
+        "title": "Changer votre logo",
+        "description": {
+          "startLine": "Cliquez pour",
+          "highlight1": "télécharger",
+          "or": "ou",
+          "highlight2": "glisser-déposer",
+          "subline": "SVG, PNG, JPG ou GIF (max: 800*800 px)"
+        }
+      },
+      "password": {
+        "title": "Changer votre mot de passe",
+        "oldPassword": "Ancien mot de passe",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le mot de passe"
+      },
+      "language": {
+        "title": "Changer la langue",
+        "en": "Anglais",
+        "fr": "Français",
+        "ar": "Arabe"
+      }
+    },
+    "callToAction": {
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
+  },
+  "productInformations": {
+    "generalInfo": {
+      "title": "Informations générales",
+      "afterMarketRef": "Ref After Market",
+      "name": "Nom",
+      "Qnt": "Qt",
+      "location": "Location"
+    },
+    "tecDocInformation": {
+      "title": "Informations TecDoc",
+      "OEM": "Ref OEM",
+      "technicalName": "Nom Technique",
+      "category": "Catégorie"
+    },
+    "prices": {
+      "title": "Prix",
+      "retailPrice": "Prix de vente",
+      "addPrice": "Ajouter un prix"
+    }
+  }
+}

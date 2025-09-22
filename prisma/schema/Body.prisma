@@ -1,0 +1,33 @@
+model Body {
+  id              String     @id @default(cuid()) @map("_id")
+  image           String?    @default("https://via.placeholder.com/150")
+  quantity        Int        @default(0)
+  sellingPrice    Float      @default(0)
+  store_id        String
+  store           Store      @relation(fields: [store_id], references: [id])
+  createdAt       DateTime   @default(now())
+  logs            Log[]
+  model           String     @default("N/A")
+  years           Int[]      @default([])
+  type            String     @default("N/A")
+  position        String     @default("N/A")
+  color           Color?
+  brand_id        String?
+  brand           Brand?     @relation(fields: [brand_id], references: [id])
+  carModel_ids    String[]
+  carModels       CarModel[] @relation(fields: [carModel_ids], references: [id])
+  ref             String     @default("N/A")
+  designation     String     @default("N/A")
+  org_designation String     @default("N/A")
+
+  @@index([id, color, ref, position, type])
+}
+
+type Color {
+  name String
+  hex  String
+}
+
+type CarModelSeries {
+  carModel_id String
+}

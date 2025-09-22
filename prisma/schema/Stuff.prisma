@@ -1,0 +1,16 @@
+model Stuff {
+  id        String   @id @default(cuid()) @map("_id")
+  username  String
+  password  String
+  store_id  String
+  store     Store    @relation(fields: [store_id], references: [id])
+  role      Role
+  createdAt DateTime @default(now())
+  logs      Log[]
+}
+
+enum Role {
+  Owner
+  Manager
+  Agent
+}

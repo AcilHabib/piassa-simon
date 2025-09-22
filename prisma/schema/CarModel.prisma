@@ -1,0 +1,20 @@
+model CarModel {
+  id          String    @id @default(cuid()) @map("_id")
+  name        String
+  brand       Brand     @relation(fields: [brand_id], references: [id])
+  brand_id    String
+  variants    String[]
+  logs        Log[]
+  tire_ids    String[]
+  tire        Tire[]    @relation(fields: [tire_ids], references: [id])
+  part_ids    String[]
+  parts       Part[]    @relation(fields: [part_ids], references: [id])
+  body_ids    String[]
+  bodies      Body[]    @relation(fields: [body_ids], references: [id])
+  glaze_ids   String[]
+  glazes      Glaze[]   @relation(fields: [glaze_ids], references: [id])
+  battery_ids String[]
+  batteries   Battery[] @relation(fields: [battery_ids], references: [id])
+
+  @@index([id, name, variants])
+}

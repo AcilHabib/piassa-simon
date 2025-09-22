@@ -1,0 +1,17 @@
+model ImportException {
+  id        String                 @id @default(cuid()) @map("_id")
+  ticket_id String
+  ticket    ImportTicket           @relation(fields: [ticket_id], references: [id])
+  message   String
+  data      Json
+  log       Json
+  subject   ImportExceptionSubject
+  createdAt DateTime               @default(now())
+}
+
+enum ImportExceptionSubject {
+  BODY
+  TIRE
+  GLAZE
+  PART
+}

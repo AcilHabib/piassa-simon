@@ -1,0 +1,9 @@
+model Notification {
+  id          String   @id @default(cuid()) @map("_id")
+  verb        String
+  //  actor LogEntity
+  //  actodUpon LogEntity
+  createdAt   DateTime @default(now())
+  description String?
+  delivered   Boolean
+}

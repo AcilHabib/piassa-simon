@@ -1,0 +1,110 @@
+enum categoryType {
+  carosserie
+  vitrage
+  piece
+  pnumatique
+  batterie
+}
+
+model store {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  partners partners[]
+}
+
+model partners {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  email      String
+  phone1     String
+  phone2     String
+  created    DateTime     @default(now())
+  updated    DateTime     @updatedAt
+  wilaya     String
+  commune    String
+  address    String
+  category   categoryType @default(piece)
+  storeId    String
+  store      store        @relation(fields: [storeId], references: [id])
+  speciality String
+  startDate  DateTime
+  status     String
+}
+
+model user {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  username  String  @unique
+  password  String
+  profile   File?   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId String? @unique
+}
+
+model File {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  mimeType String
+  data     Bytes
+  user     user?
+  userId   String? @unique
+}
+
+enum paymentStatus {
+  paid
+  unpaid
+}
+
+enum orderStatus {
+  pending
+  confirmed
+  cancelled
+  delivered
+  call_1
+  call_2
+  call_3
+  seen
+  shipping
+  returned
+  received
+  no_received
+}
+
+model Orderr {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  clientId      String
+  client        client        @relation(fields: [clientId], references: [id])
+  productId     String
+  product       product       @relation(fields: [productId], references: [id])
+  quantity      Int
+  delivery      Float
+  created       DateTime      @default(now())
+  updated       DateTime      @updatedAt
+  total         Float
+  paymentStatus paymentStatus @default(unpaid)
+  status        orderStatus   @default(pending)
+}
+
+model client {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String
+  password String
+  phone1   String
+  phone2   String
+  wilaya   String
+  commune  String
+  address  String
+  orders   Orderr[]
+  created  DateTime @default(now())
+  updated  DateTime @updatedAt
+}
+
+model product {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  productRef   String
+  productName  String
+  productPrice Float
+  category     categoryType
+  orders       Orderr[]
+  created      DateTime     @default(now())
+  updated      DateTime     @updatedAt
+}

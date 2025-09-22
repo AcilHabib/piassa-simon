@@ -1,0 +1,19 @@
+model Tire {
+  id           String     @id @default(cuid()) @map("_id")
+  image        String?
+  quantity     Int
+  sellingPrice Float
+  store_id     String
+  store        Store      @relation(fields: [store_id], references: [id])
+  createdAt    DateTime   @default(now())
+  logs         Log[]
+  width        Int
+  aspectRatio  Int
+  rimDiameter  Int
+  brand_id     String?
+  carModel_ids String[]
+  carModels    CarModel[] @relation(fields: [carModel_ids], references: [id])
+  brand        Brand?     @relation(fields: [brand_id], references: [id])
+
+  @@index([id, width, aspectRatio, rimDiameter])
+}

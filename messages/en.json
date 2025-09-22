@@ -1,0 +1,169 @@
+{
+  "HomePage": {
+    "title": "hello world",
+    "searchPlaceholder": "Search"
+  },
+  "LoginPage": {
+    "title": "Opening Session",
+    "mutedTitle": "to continue to Piassa",
+    "form": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Simon",
+        "error": "Username must be at least 3 characters long"
+      },
+      "password": {
+        "label": "Password",
+        "error": "Password must be at least 4 characters long"
+      },
+      "loginButton": "Login"
+    }
+  },
+  "sideBar": {
+    "stock": "Stock",
+    "pos": "Point of Sale",
+    "lowStock": "Low Stock",
+    "lowRotation": "Low Rotation",
+    "orders": "Orders",
+    "sales": "Sales",
+    "wallet": "Cash funds",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "stockPage": {
+    "importStock": "Import Stock",
+    "tableHeadTitles": {
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "quantity": "Qt"
+    },
+    "moreOptions": {
+      "edit": "Edit",
+      "seeDetails": "See Details",
+      "delete": "Delete"
+    },
+    "articles": {
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "refAM": "Ref After market",
+      "refTD": "Ref TecDoc",
+      "position": "Position",
+      "type": "Type",
+      "quantity": "Quantity"
+    },
+    "addProduct": {
+      "titlePart": "Ajouter une Piece",
+      "titleBody": "Ajouter  un Carousserie",
+      "titleGlaze": "Ajouter un Vitrage",
+      "titleTire": "Ajouter un Pneu",
+      "designation": "Designation",
+      "ref": "Ref",
+      "brand": "Brand",
+      "carModels": "Models",
+      "sellingPrice": "Price",
+      "quantity": "Qt",
+      "refAM": "Ref After market",
+      "refTD": "Ref TecDoc",
+      "position": "Position",
+      "type": "Type",
+      "year": "Years",
+      "color": "Color"
+    }
+  },
+  "POSPage": {
+    "tableHeaders": {
+      "ProductName": "Product Name",
+      "Ref": "Ref",
+      "Category": "Category",
+      "SellPrice": "Sell Price",
+      "Qt": "Qt"
+    },
+    "addToCart": "Add to Cart",
+    "order": {
+      "title": "Order",
+      "total": "Total",
+      "discount": "Discount",
+      "finalTotal": "Final Total",
+      "payment": "Payment",
+      "cash": "Cash",
+      "credit": "Credit",
+      "validate": "Validate",
+      "articles": "Articles",
+      "confirmOrder": "Confirm Order",
+      "confirmOrderDescription": "This action is irreversible. Are you sure you want to confirm this order",
+      "ref": "Ref",
+      "date": "Date"
+    }
+  },
+  "months": {
+    "1": "January",
+    "2": "February",
+    "3": "March",
+    "4": "April",
+    "5": "May",
+    "6": "June",
+    "7": "July",
+    "8": "August",
+    "9": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
+  },
+  "settingsPage": {
+    "generalSettings": {
+      "title": "Change your personal informations",
+      "logo": {
+        "title": "Change your logo",
+        "description": {
+          "startLine": "Click for",
+          "highlight1": "upload",
+          "or": "or",
+          "highlight2": "drag and drop",
+          "subline": "SVG, PNG, JPG or GIF (max: 800*800 px)"
+        }
+      },
+      "password": {
+        "title": "Change your password",
+        "oldPassword": "Old Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "language": {
+        "title": "Change the language",
+        "en": "English",
+        "fr": "French",
+        "ar": "Arabic"
+      }
+    },
+    "callToAction": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "productInformations": {
+    "generalInfo": {
+      "title": "General Informations",
+      "afterMarketRef": "After Market Ref",
+      "name": "Name",
+      "Qnt": "Quantity",
+      "location": "Location"
+    },
+    "tecDocInformation": {
+      "title": "TecDoc Informations",
+      "OEM": "OEM ref",
+      "technicalName": "Technical Name",
+      "category": "Category"
+    },
+    "prices": {
+      "title": "Prices",
+      "retailPrice": "Retail Price",
+      "addPrice": "Add Price"
+    }
+  }
+}

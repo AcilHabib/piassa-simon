@@ -1,0 +1,168 @@
+model Agency {
+  id      String     @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  rapport Rapports[]
+  expert  Experts[]
+  created DateTime   @default(now())
+  updated DateTime   @updatedAt
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Experts {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String     @unique
+  email       String
+  password    String
+  phone1      String
+  phone2      String
+  wilaya      String
+  commune     String
+  address     String
+  parmitation String
+  role        UserRole   @default(USER)
+  startDate   DateTime   @default(now())
+  agencyId    String?
+  agency      Agency?    @relation(fields: [agencyId], references: [id])
+  order       Orders[]
+  rapport     Rapports[]
+  created     DateTime   @default(now())
+  updated     DateTime   @updatedAt
+}
+
+model Parts {
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  category String
+  price    Float
+  quantity Int
+  order    CoreOrders[]
+  created  DateTime     @default(now())
+  updated  DateTime     @updatedAt
+}
+
+type CoreOrders {
+  partId   String
+  name     String
+  quantity Int
+  price    Float
+  type     String
+  store_id String
+}
+
+model Orders {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  total     Float
+  expertId  String
+  expert    Experts      @relation(fields: [expertId], references: [id])
+  part      CoreOrders[]
+  rapportId String       @unique
+  rapport   Rapports     @relation(fields: [rapportId], references: [id])
+  status    String?
+  created   DateTime     @default(now())
+  updated   DateTime     @updatedAt
+
+  @@map("Orders")
+}
+
+model Clients {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  Model     String
+  carBrand  String
+  engine    String?
+  matricule String
+  year      String
+  nChassis  String
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+  // rapport   Rapports[]
+}
+
+enum Status {
+  ON_HOLD
+  IN_PROGRESS
+  DONE
+}
+
+type VetusiType {
+  carosserie Float
+  energie    Float
+  vitre      Float
+  pnumatique Float
+  piece      Float
+}
+
+type CelluleType {
+  name  String?
+  price Float?  @default(0)
+}
+
+enum cellule {
+  Mo
+  Peint
+  Fournit
+}
+
+type ArticleType {
+  name     String?
+  category String?
+}
+
+type Articles {
+  details String?
+  items   ArticleType[]
+}
+
+model Rapports {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  rapportStatus Status      @default(ON_HOLD)
+  compagnie     String?
+  Agence        String?
+  accidentDate  DateTime?
+  policeId      String?
+  assure        String?
+  sinistreId    String?
+  genre         String?
+  type          String?
+  puissance     String?
+  couleur       String?
+  marque        String?
+  serieId       String?
+  immatId       String?
+  annees        String?
+  carros        String?
+  energie       String?
+  etats         String?
+  photo         String?
+  description   String?
+  agencyId      String
+  totalEnLettre String?
+  Immob         String?
+  carModel      String?
+  vetusi        VetusiType?
+  agency        Agency      @relation(fields: [agencyId], references: [id])
+  expertId      String
+  expert        Experts     @relation(fields: [expertId], references: [id])
+  // clientId      String
+  // client        Clients     @relation(fields: [clientId], references: [id])
+  order         Orders?
+  created       DateTime    @default(now())
+  updated       DateTime    @updatedAt
+
+  assure_name  String?
+  motorisation String?
+  chassis      String?
+
+  articles Articles?
+
+  Mo      CelluleType[]
+  Pient   CelluleType[]
+  Fournit CelluleType[]
+
+  @@map("Rapports")
+}

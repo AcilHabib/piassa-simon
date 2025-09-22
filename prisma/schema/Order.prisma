@@ -1,0 +1,68 @@
+model Order {
+  id                  String            @id @default(cuid()) @map("_id")
+  ref                 String
+  store_id            String?
+  store               Store?            @relation(fields: [store_id], references: [id])
+  insuranceCompany_id String?
+  insuranceCompany    InsuranceCompany? @relation(fields: [insuranceCompany_id], references: [id])
+  status              OrderStatus       @default(PENDING)
+  type                OrderType         @default(REGULAR)
+  total               Float
+  client_id           String?
+  client              Client?
+  createdAt           DateTime          @default(now())
+  logs                Log[]
+  simonSessions_ids   String[]
+  simonSessions       SimonSession[]    @relation(fields: [simonSessions_ids], references: [id])
+
+  items OrderItem[]
+
+  @@index([store_id, status, ref])
+  @@map("Order")
+}
+
+type Client {
+  first_name String
+  last_name  String
+  phone      String
+  address    String
+  geoData    Json?
+  state      String
+  city       String
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SEEN // the supplier has seen the order notif
+  SHIPPING
+  DELIVERED
+  RETURNED
+  CANCELLED
+  PAYED
+  CALLED1
+  CALLED2
+  CALLED3 //after this call the order is considered as cancelled
+}
+
+enum OrderType {
+  REGULAR
+  SIMON
+  INSURANCE
+}
+
+type OrderItem {
+  id           String
+  quantity     Int
+  sellingPrice Float
+  type         CategoryType
+  store_id     String? // Ensure store_id is included here
+}
+
+enum CategoryType {
+  TIRE
+  BATTERY
+  GLAZE
+  PART
+  BODY
+}

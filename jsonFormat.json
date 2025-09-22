@@ -1,0 +1,34 @@
+{
+    "marques": [
+        {
+            "label": "String (first letter caps)",
+            "value": "String (lower case)",
+            "familles": [
+                {
+                    "label": "String (first letter caps)",
+                    "value": "String (lower case)",
+                    "models": [
+                        {
+                            "label": "String (first letter caps)",
+                            "value": "String (lower case)",
+                            "motors": {
+                                "diesel": [
+                                    {
+                                        "label": "String (first letter caps)",
+                                        "value": "String (lower case)"
+                                    }
+                                ],
+                                "essence": [
+                                    {
+                                        "label": "String (first letter caps)",
+                                        "value": "String (lower case)"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+model SimonSession {
+  id         String    @id @default(cuid()) @map("_id")
+  createdAt  DateTime  @default(now())
+  closedAt   DateTime?
+  issuer_id  String
+  orders_ids String[]
+  Orders     Order[]   @relation(fields: [orders_ids], references: [id])
+  closer_id  String
+  store_id   String
+  store      Store     @relation(fields: [store_id], references: [id])
+  logs       Log[]
+
+  @@index([store_id, issuer_id, closer_id])
+}

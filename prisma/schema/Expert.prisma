@@ -1,0 +1,15 @@
+model Expert {
+  id                  String           @id @default(cuid()) @map("_id")
+  createdAt           DateTime         @default(now())
+  username            String
+  password            String
+  insuranceCompany_id String
+  insuranceCompany    InsuranceCompany @relation(fields: [insuranceCompany_id], references: [id])
+  logs                Log[]
+  role                ExpertRole
+}
+
+enum ExpertRole {
+  ADMIN
+  EXPERT
+}

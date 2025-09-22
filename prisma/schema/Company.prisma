@@ -1,0 +1,12 @@
+model InsuranceCompany {
+  id        String    @id @default(cuid()) @map("_id")
+  createdAt DateTime  @default(now())
+  name      String
+  experts   Expert[]
+  orders    Order[]
+  logs      Log[]
+  logo      String?
+  dueDate   DateTime?
+  admin_id  String
+  admin     Admin     @relation(fields: [admin_id], references: [id])
+}

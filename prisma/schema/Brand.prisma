@@ -1,0 +1,21 @@
+model Brand {
+  id            String     @id @default(cuid()) @map("_id")
+  name          String
+  logo          String
+  tires         Tire[]
+  Part          Part[]
+  Body          Body[]
+  glaze         Glaze[]
+  battery       Battery[]
+  logs          Log[]
+  createdAt     DateTime   @default(now())
+  isCarProd     Boolean
+  isTireProd    Boolean
+  isPartProd    Boolean
+  isBodyProd    Boolean
+  isGlazeProd   Boolean
+  isBatteryProd Boolean
+  CarModels     CarModel[]
+
+  @@index([id, name])
+}

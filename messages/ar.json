@@ -1,0 +1,133 @@
+{
+  "HomePage": {
+    "title": "مرحبًا بالعالم",
+    "searchPlaceholder": "بحث"
+  },
+  "LoginPage": {
+    "title": "فتح جلسة",
+    "mutedTitle": "للانتقال إلى بياسة",
+    "form": {
+      "username": {
+        "label": "اسم المستخدم",
+        "placeholder": "سيمون",
+        "error": "يجب أن يتكون اسم المستخدم من 3 أحرف على الأقل"
+      },
+      "password": {
+        "label": "كلمة المرور",
+        "error": "يجب أن تتكون كلمة المرور من 4 أحرف على الأقل"
+      },
+      "loginButton": "تسجيل الدخول"
+    }
+  },
+  "sideBar": {
+    "stock": "المخزون",
+    "pos": "نقطة البيع",
+    "lowStock": "المخزون المنخفض",
+    "lowRotation": "الدوران المنخفض",
+    "orders": "الطلبات",
+    "sales": "المبيعات",
+    "wallet": "الأموال النقدية",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
+  },
+  "stockPage": {
+    "addProduct": "إضافة منتج",
+    "tableHeaders": {
+      "ProductName": "اسم المنتج",
+      "Ref": "المرجع",
+      "Category": "الفئة",
+      "BuyPrice": "سعر الشراء",
+      "SellPrice": "سعر البيع",
+      "DateAdded": "تاريخ الإضافة",
+      "Qt": "الكمية"
+    },
+    "moreOptions": {
+      "edit": "تعديل",
+      "seeDetails": "رؤية التفاصيل",
+      "delete": "حذف"
+    },
+    "editHeaders": {
+      "ref": "المرجع",
+      "category": "الفئة",
+      "sellPrice": "سعر البيع",
+      "dateAdded": "تاريخ الإضافة",
+      "qt": "الكمية",
+      "location": "الموقع"
+    }
+  },
+  "POSPage": {
+    "tableHeaders": {
+      "ProductName": "اسم المنتج",
+      "Ref": "المرجع",
+      "Category": "الفئة",
+      "SellPrice": "سعر البيع",
+      "Qt": "الكمية"
+    },
+    "addToCart": "إضافة إلى السلة"
+  },
+  "months": {
+    "1": "جانفي",
+    "2": "فيفري",
+    "3": "مارس",
+    "4": "أفريل",
+    "5": "ماي",
+    "6": "جوان",
+    "7": "جويلية",
+    "8": "أوت",
+    "9": "سبتمبر",
+    "10": "أكتوبر",
+    "11": "نوفمبر",
+    "12": "ديسمبر"
+  },
+  "settingsPage": {
+    "generalSettings": {
+      "title": "تغيير معلوماتك الشخصية",
+      "logo": {
+        "title": "تغيير الشعارك",
+        "description": {
+          "startLine": "انقر ل",
+          "highlight1": "تحميل",
+          "or": "أو",
+          "highlight2": "اسحب و افلتر",
+          "subline": "SVG, PNG, JPG أو GIF (الحد الأقصى: 800*800)"
+        }
+      },
+      "password": {
+        "title": "تغيير كلمة المرور",
+        "oldPassword": "كلمة المرور القديمة",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور"
+      },
+      "language": {
+        "title": "تغيير اللغة",
+        "en": "الإنجليزية",
+        "fr": "الفرنسية",
+        "ar": "العربية"
+      }
+    },
+    "callToAction": {
+      "save": "حفظ",
+      "cancel": "إلغاء"
+    }
+  },
+  "productInformations": {
+    "generalInfo": {
+      "title": "معلومات عامة",
+      "afterMarketRef": "مرجع البيع",
+      "name": "الاسم",
+      "Qnt": "الكمية",
+      "location": "الموقع"
+    },
+    "tecDocInformation": {
+      "title": "معلومات TecDoc",
+      "OEM": "مرجع OEM",
+      "technicalName": "اسم التقني",
+      "category": "الفئة"
+    },
+    "prices": {
+      "title": "الأسعار",
+      "retailPrice": "سعر البيع",
+      "addPrice": "إضافة سعر"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+model Battery {
+  id           String     @id @default(cuid()) @map("_id")
+  brand_id     String
+  brand        Brand      @relation(fields: [brand_id], references: [id])
+  carModel_ids String[]
+  CarModels    CarModel[] @relation(fields: [carModel_ids], references: [id])
+  amps         Float
+  voltage      Float
+  logs         Log[]
+
+  @@index([id, brand_id, amps, voltage])
+}

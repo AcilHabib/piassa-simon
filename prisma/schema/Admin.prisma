@@ -1,0 +1,8 @@
+model Admin {
+  id        String             @id @default(cuid()) @map("_id")
+  username  String
+  password  String
+  logs      Log[]
+  companies InsuranceCompany[]
+  stoers    Store[]
+}

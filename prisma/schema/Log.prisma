@@ -1,0 +1,65 @@
+model Log {
+  id                  String            @id @default(cuid()) @map("_id")
+  verb                String
+  subject             LogSubject
+  object              LogObject
+  createdAt           DateTime          @default(now())
+  description         String?
+  admin_id            String
+  admin               Admin             @relation(fields: [admin_id], references: [id])
+  glaze_id            String?
+  glaze               Glaze?            @relation(fields: [glaze_id], references: [id])
+  body_id             String?
+  body                Body?             @relation(fields: [body_id], references: [id])
+  part_id             String?
+  part                Part?             @relation(fields: [part_id], references: [id])
+  tire_id             String?
+  tire                Tire?             @relation(fields: [tire_id], references: [id])
+  store_id            String?
+  store               Store?            @relation(fields: [store_id], references: [id])
+  brand_id            String?
+  brand               Brand?            @relation(fields: [brand_id], references: [id])
+  article_id          String?
+  stuff_id            String?
+  stuff               Stuff?            @relation(fields: [stuff_id], references: [id])
+  order_id            String?
+  order               Order?            @relation(fields: [order_id], references: [id])
+  insuranceCompany_id String?
+  insuranceCompany    InsuranceCompany? @relation(fields: [insuranceCompany_id], references: [id])
+  expert_id           String?
+  expert              Expert?           @relation(fields: [expert_id], references: [id])
+  SimonSession        SimonSession?     @relation(fields: [simonSessionId], references: [id])
+  simonSessionId      String?
+  CarModel            CarModel?         @relation(fields: [carModel_id], references: [id])
+  carModel_id         String?
+  battery_id          String?
+  battery             Battery?          @relation(fields: [battery_id], references: [id])
+}
+
+type LogSubject {
+  actor Actor
+}
+
+type LogObject {
+  collection Collection
+  id         String
+}
+
+enum Actor {
+  ADMIN
+  STUFF
+}
+
+enum Collection {
+  GLAZES
+  BODIES
+  PARTS
+  TIRES
+  STORES
+  ADMINS
+  LOGS
+  BRANDS
+  ARTICLES
+  STUFFS
+  ORDERS
+}

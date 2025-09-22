@@ -1,0 +1,23 @@
+model Store {
+  id            String         @id @default(cuid()) @map("_id")
+  name          String
+  logo          String?
+  geoData       Json
+  address       String
+  stuff         Stuff[]
+  stuffLimit    Int
+  tires         Tire[]
+  parts         Part[]
+  bodies        Body[]
+  glazes        Glaze[]
+  simonSessions SimonSession[]
+  orders        Order[]
+  ref           String
+  logs          Log[]
+  createdAt     DateTime       @default(now())
+  dueDate       DateTime
+  admin_id      String
+  admin         Admin          @relation(fields: [admin_id], references: [id])
+
+  @@index([name, ref])
+}

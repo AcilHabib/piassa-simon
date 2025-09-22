@@ -1,0 +1,28 @@
+model Glaze {
+  id           String        @id @default(cuid()) @map("_id")
+  image        String?
+  quantity     Int
+  sellingPrice Float
+  store_id     String
+  store        Store         @relation(fields: [store_id], references: [id])
+  createdAt    DateTime      @default(now())
+  logs         Log[]
+  effect       GlazeEffect
+  position     GlazePosition
+  designation  String
+  brand_id     String?
+  brand        Brand?        @relation(fields: [brand_id], references: [id])
+  carModel_ids String[]
+  carModels    CarModel[]    @relation(fields: [carModel_ids], references: [id])
+
+  @@index([id, designation])
+}
+
+enum GlazeEffect {
+  dim
+  none
+}
+
+enum GlazePosition {
+  aile
+}

@@ -1,0 +1,5 @@
+model ImportTicket {
+  id         String            @id @default(cuid()) @map("_id")
+  createdAt  DateTime          @default(now())
+  exceptions ImportException[]
+}
