@@ -1,4 +1,4 @@
-import {PartsExtractor} from './partsExtractor.js';
+/* import {PartsExtractor} from './partsExtractor.js';
 import {DbMatcher} from './dbMatcher.js';
 
 export class PartsProcessor {
@@ -53,3 +53,4 @@ export class PartsProcessor {
     }
   }
 }
+ */
