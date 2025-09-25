@@ -1,11 +1,16 @@
-import {NextRequest, NextResponse} from 'next/server';
-import * as XLSX from 'xlsx';
-import {PrismaClient, Part, Brand, ImportExceptionSubject} from '@prisma/client';
-import {OpenAI} from 'openai';
-import {z} from 'zod';
-import stringSimilarity from 'string-similarity';
-import Fuse from 'fuse.js';
-import {zodResponseFormat} from 'openai/helpers/zod';
+import { NextRequest, NextResponse } from "next/server";
+import * as XLSX from "xlsx";
+import {
+  PrismaClient,
+  Part,
+  Brand,
+  ImportExceptionSubject,
+} from "@prisma/client";
+import { OpenAI } from "openai";
+import { z } from "zod";
+import stringSimilarity from "string-similarity";
+import Fuse from "fuse.js";
+import { zodResponseFormat } from "openai/helpers/zod";
 
 const prisma = new PrismaClient();
 const openai = new OpenAI({
@@ -13,7 +18,7 @@ const openai = new OpenAI({
 });
 
 // Feature flag for testing
-const FEATURE_FLAG_SAVE_TO_DB = process.env.FEATURE_FLAG_SAVE_TO_DB === 'true';
+const FEATURE_FLAG_SAVE_TO_DB = process.env.FEATURE_FLAG_SAVE_TO_DB === "true";
 
 // Define the combined schema
 const ImportSchema = z.object({
@@ -44,9 +49,9 @@ async function searchExistingRecords(processedData: any, store_id: string) {
     return str
       .toLowerCase()
       .trim()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9\s]/g, '');
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, "");
   }
 
   // Get all models but exclude image field
@@ -61,18 +66,20 @@ async function searchExistingRecords(processedData: any, store_id: string) {
 
   // Configure Fuse.js with improved options
   const fuse = new Fuse(allModels, {
-    keys: ['name'],
+    keys: ["name"],
     threshold: 0.3, // More lenient matching
     isCaseSensitive: false,
   });
 
   // Try exact match with model first if present
   let models = [];
-  const splitModels = processedData?.car_model_ids?.split(',').map((m: string) => cleanString(m.trim()));
+  const splitModels = processedData?.car_model_ids
+    ?.split(",")
+    .map((m: string) => cleanString(m.trim()));
 
   for (const modelName of splitModels) {
     const result = fuse.search(modelName);
-    console.log('====================================', result);
+    console.log("====================================", result);
     // Only take the first match that is below the 0.3 threshold, then stop
     if (result.length > 0) {
       models.push(result[0].item);
@@ -87,7 +94,7 @@ async function searchExistingRecords(processedData: any, store_id: string) {
   //   }
   // }
   const cleanedDesignation = cleanString(processedData?.designation);
-  console.log('[CLEANED DESIGNATION]', cleanedDesignation);
+  console.log("[CLEANED DESIGNATION]", cleanedDesignation);
 
   // If no models found, search in designation
   if (models.length === 0) {
@@ -107,7 +114,7 @@ async function searchExistingRecords(processedData: any, store_id: string) {
   }
 
   // Log Fuse.js results for debugging
-  console.log('[FUSE RESULTS]', models);
+  console.log("[FUSE RESULTS]", models);
 
   // Use stringSimilarity as fallback with lowercase comparison
   if (models.length === 0 && processedData?.designation) {
@@ -121,11 +128,11 @@ async function searchExistingRecords(processedData: any, store_id: string) {
   }
 
   // Log models for debugging
-  console.log('[MODELS MATCH]', {models});
+  console.log("[MODELS MATCH]", { models });
 
   // Get complete models with brand if found
   const foundModels = await prisma.carModel.findMany({
-    where: {id: {in: models.map((m) => m.id)}},
+    where: { id: { in: models.map((m) => m.id) } },
     select: {
       id: true,
       name: true,
@@ -141,20 +148,20 @@ async function searchExistingRecords(processedData: any, store_id: string) {
         ? await prisma.part.findFirst({
             where: {
               store_id,
-              ref: String(processedData.ref) || '',
-              carModel_ids: {hasSome: foundModels.map((m) => m.id)},
+              ref: String(processedData.ref) || "",
+              carModel_ids: { hasSome: foundModels.map((m) => m.id) },
             },
           })
         : {
             // Mock part for test mode
-            id: 'test-id',
+            id: "test-id",
             ref: String(processedData.ref),
             carModel_ids: foundModels.map((m) => m.id),
             store_id,
           }
       : null;
 
-  console.log('[FINAL]', {
+  console.log("[FINAL]", {
     foundModels,
     part,
   });
@@ -164,7 +171,11 @@ async function searchExistingRecords(processedData: any, store_id: string) {
   };
 }
 
-async function processWithChatGPT(data: any[], importTicket: any, store_id: string) {
+async function processWithChatGPT(
+  data: any[],
+  importTicket: any,
+  store_id: string
+) {
   const allModels = await prisma.carModel.findMany({
     select: {
       id: true,
@@ -227,18 +238,18 @@ async function processWithChatGPT(data: any[], importTicket: any, store_id: stri
       `;
 
       const completion = await openai.chat.completions.create({
-        messages: [{role: 'developer', content: prompt}],
-        model: 'gpt-4o-mini',
-        response_format: zodResponseFormat(ImportSchema, 'import_data'),
+        messages: [{ role: "developer", content: prompt }],
+        model: "gpt-4o-mini",
+        response_format: zodResponseFormat(ImportSchema, "import_data"),
       });
 
       const content = completion.choices[0].message.content;
       if (!content) {
-        throw new Error('Completion content is null');
+        throw new Error("Completion content is null");
       }
       const processed = ImportSchema.parse(JSON.parse(content));
 
-      console.log('[PROCESSED]', {
+      console.log("[PROCESSED]", {
         ref: processed.part.ref,
         designation: processed.part.designation,
         type: processed.part.type,
@@ -250,18 +261,18 @@ async function processWithChatGPT(data: any[], importTicket: any, store_id: stri
       try {
         searchResults = await searchExistingRecords(processed, store_id);
       } catch (error) {
-        console.error('[ERROR] Failed to search existing records:', error);
-        throw new Error('Failed to search existing records');
+        console.error("[ERROR] Failed to search existing records:", error);
+        throw new Error("Failed to search existing records");
       }
 
       if (searchResults.existingModels.length === 0) {
-        console.log('[FAILED - MODEL NOT FOUND]', {
+        console.log("[FAILED - MODEL NOT FOUND]", {
           searchedDesignation: processed.part.designation,
           ref: processed.part.ref,
           originalData: item,
         });
         exceptions.push({
-          message: 'Model not found',
+          message: "Model not found",
           data: {
             designation: processed.part.designation,
             ref: processed.part.ref,
@@ -283,7 +294,9 @@ async function processWithChatGPT(data: any[], importTicket: any, store_id: stri
               ),
             });
             successCount++;
-            console.log(`[SUCCESS] Created part ${successCount}/${data.length}`);
+            console.log(
+              `[SUCCESS] Created part ${successCount}/${data.length}`
+            );
           } else {
             console.log(`[TEST MODE] Would create part:`, {
               data: sanitizePartData(
@@ -295,13 +308,13 @@ async function processWithChatGPT(data: any[], importTicket: any, store_id: stri
             });
           }
         } catch (createError) {
-          console.log('[FAILED - CREATION ERROR]', {
+          console.log("[FAILED - CREATION ERROR]", {
             error: createError.message,
             processedData: processed,
             originalData: item,
           });
           exceptions.push({
-            message: 'Failed to create part',
+            message: "Failed to create part",
             data: {
               error: createError.message,
               processed,
@@ -311,25 +324,29 @@ async function processWithChatGPT(data: any[], importTicket: any, store_id: stri
         }
       }
     } catch (error) {
-      console.error('[ERROR]', error);
+      console.error("[ERROR]", error);
       exceptions.push({
-        message: 'Processing failed',
-        data: {error: error.message, item},
+        message: "Processing failed",
+        data: { error: error.message, item },
       });
     }
   }
 
-  console.log('[SUMMARY]', {
+  console.log("[SUMMARY]", {
     total: data.length,
     success: successCount,
     discarded: discardedCount,
     failed: exceptions.length,
   });
 
-  return {successCount, discardedCount, exceptions};
+  return { successCount, discardedCount, exceptions };
 }
 
-async function processImportedData(data: any, store_id: string, ticketId: string) {
+async function processImportedData(
+  data: any,
+  store_id: string,
+  ticketId: string
+) {
   let successCount = 0;
   const exceptions = [];
 
@@ -347,9 +364,12 @@ async function processImportedData(data: any, store_id: string, ticketId: string
       );
 
       // Track result but continue processing
-      if (!searchResults.existingModels || searchResults.existingModels.length === 0) {
+      if (
+        !searchResults.existingModels ||
+        searchResults.existingModels.length === 0
+      ) {
         exceptions.push({
-          message: 'Model not found',
+          message: "Model not found",
           data: {
             model: item.carModel?.name,
             ref: item.part?.ref,
@@ -362,19 +382,22 @@ async function processImportedData(data: any, store_id: string, ticketId: string
       // Only create if part doesn't exist
       if (!searchResults.existingPart) {
         await prisma.part.create({
-          data: sanitizePartData(item.part, store_id, searchResults.existingModels[0].brand_id, [
-            searchResults.existingModels[0].id,
-          ]),
+          data: sanitizePartData(
+            item.part,
+            store_id,
+            searchResults.existingModels[0].brand_id,
+            [searchResults.existingModels[0].id]
+          ),
         });
         successCount++;
         console.log(`[SUCCESS] Created part ${successCount}/${data.length}`);
       }
     } catch (error) {
-      console.error('[ERROR] Processing item:', error);
+      console.error("[ERROR] Processing item:", error);
       exceptions.push({
-        message: 'Failed to process item',
+        message: "Failed to process item",
         data: {
-          error: error instanceof Error ? error.message : 'Unknown error',
+          error: error instanceof Error ? error.message : "Unknown error",
           item,
         },
       });
@@ -383,10 +406,14 @@ async function processImportedData(data: any, store_id: string, ticketId: string
 
   // Create all exceptions at once
   if (exceptions.length > 0) {
-    await Promise.all(exceptions.map((ex) => createImportException(ticketId, ex.message, ex.data)));
+    await Promise.all(
+      exceptions.map((ex) =>
+        createImportException(ticketId, ex.message, ex.data)
+      )
+    );
   }
 
-  console.log('[FINAL] Processing complete:', {
+  console.log("[FINAL] Processing complete:", {
     total: data.length,
     success: successCount,
     exceptions: exceptions.length,
@@ -404,25 +431,25 @@ export async function POST(request: NextRequest) {
   let importTicket;
 
   try {
-    importTicket = await prisma.importTicket.create({data: {}});
+    importTicket = await prisma.importTicket.create({ data: {} });
 
     const formData = await request.formData();
-    const file = formData.get('file') as File;
-    const store_id = formData.get('store_id') as string;
+    const file = formData.get("file") as File;
+    const store_id = formData.get("store_id") as string;
 
     if (!file || !store_id) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Missing required fields: file or store_id',
+          error: "Missing required fields: file or store_id",
         },
-        {status: 400}
+        { status: 400 }
       );
     }
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const workbook = XLSX.read(buffer, {type: 'buffer'});
+    const workbook = XLSX.read(buffer, { type: "buffer" });
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = XLSX.utils.sheet_to_json(worksheet);
 
@@ -430,9 +457,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Invalid or empty Excel file',
+          error: "Invalid or empty Excel file",
         },
-        {status: 400}
+        { status: 400 }
       );
     }
 
@@ -446,22 +473,26 @@ export async function POST(request: NextRequest) {
         failed: result.exceptions.length,
         exceptions: result.exceptions,
       },
-      {status: 200}
+      { status: 200 }
     );
   } catch (error) {
-    console.error('[FATAL]', error);
+    console.error("[FATAL]", error);
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
         ticketId: importTicket?.id,
       },
-      {status: 500}
+      { status: 500 }
     );
   }
 }
 
-async function createImportException(ticketId: string, message: string, data: any) {
+async function createImportException(
+  ticketId: string,
+  message: string,
+  data: any
+) {
   return await prisma.importException.create({
     data: {
       ticket_id: ticketId,
@@ -472,25 +503,31 @@ async function createImportException(ticketId: string, message: string, data: an
         error: message,
         data: data,
       },
-      subject: 'PART', // Use a valid string for the subject
+      subject: "PART", // Use a valid string for the subject
     },
   });
 }
 
-function sanitizePartData(data: any, storeId: string, brandId: string, carModelIds: string[]) {
+function sanitizePartData(
+  data: any,
+  storeId: string,
+  brandId: string,
+  carModelIds: string[]
+) {
   return {
-    image: String(''),
-    quantity: Number(data?.quantity) > 1 ? 2 : Number(data?.quantity) > 0 ? 1 : 0,
+    image: String(""),
+    quantity:
+      Number(data?.quantity) > 1 ? 2 : Number(data?.quantity) > 0 ? 1 : 0,
     sellingPrice: Number(data?.sellingPrice) || 0,
     store_id: String(storeId),
-    model: String(data?.model || ''),
+    model: String(data?.model || ""),
     year: Number(data?.year) || 0,
-    position: String(data?.position || 'NONE'),
-    color: data?.color || {name: 'N/A', hex: 'N/A'},
+    position: String(data?.position || "NONE"),
+    color: data?.color || { name: "N/A", hex: "N/A" },
     brand_id: String(brandId),
     carModel_ids: carModelIds.map(String),
-    ref: String(data?.ref || ''), // Ensure ref is a string
-    type: String(data?.type || 'N/A'),
-    designation: String(data?.designation || 'N/A'),
+    ref: String(data?.ref || ""), // Ensure ref is a string
+    type: String(data?.type || "N/A"),
+    designation: String(data?.designation || "N/A"),
   };
 }
